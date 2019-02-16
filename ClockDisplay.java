@@ -1,4 +1,5 @@
 
+
 /**
  * The ClockDisplay class implements a digital clock display for a
  * European-style 24 hour clock. The clock shows hours and minutes. The 
@@ -17,7 +18,9 @@ public class ClockDisplay
     private NumberDisplay hours;
     private NumberDisplay minutes;
     private String displayString;    // simulates the actual display
-    
+    private boolean time;
+    private int displayString2;
+    private int hour;
     /**
      * Constructor for ClockDisplay objects. This constructor 
      * creates a new clock set at 00:00.
@@ -52,6 +55,7 @@ public class ClockDisplay
             hours.increment();
         }
         updateDisplay();
+        
     }
 
     /**
@@ -60,10 +64,36 @@ public class ClockDisplay
      */
     public void setTime(int hour, int minute)
     {
-        hours.setValue(hour);
-        minutes.setValue(minute);
-        updateDisplay();
+       if ( hour > 12)
+       {
+            hours.setValue(hour - 12);
+            minutes.setValue(minute);
+            time = true;
+            updateDisplay();
+        }
+       else if ( hour == 0)
+       {
+           hours.setValue(hour + 12);
+            minutes.setValue(minute);
+            time = false;
+            updateDisplay();
+        }
+         else if ( hour == 12)
+       {
+           hours.setValue(hour);
+            minutes.setValue(minute);
+            time = true;
+            updateDisplay();
+        }
+        else 
+        {
+            hours.setValue(hour);
+            minutes.setValue(minute);
+            time = false;
+            updateDisplay();
+        }
     }
+      
 
     /**
      * Return the current time of this display in the format HH:MM.
@@ -78,7 +108,17 @@ public class ClockDisplay
      */
     private void updateDisplay()
     {
-        displayString = hours.getDisplayValue() + ":" + 
-                        minutes.getDisplayValue();
+            if (time == true )
+            {
+                displayString = hours.getDisplayValue() + ":" + 
+                        minutes.getDisplayValue() + "pm";
+            }
+            else  if (time == false) 
+            {   
+                displayString = hours.getDisplayValue() + ":" + 
+                        minutes.getDisplayValue() + "am"; 
+            }     
     }
+    
+     
 }
