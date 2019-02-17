@@ -17,14 +17,15 @@ public class ClockDisplay12Hr
     private NumberDisplay hours;
     private NumberDisplay minutes;
     private String displayString;    // simulates the actual display
-
+    private boolean isMorning;
+    
     /**
      * Constructor for ClockDisplay objects. This constructor
      * creates a new clock set at 00:00.
      */
     public ClockDisplay12Hr()
     {
-        hours = new NumberDisplay(24);
+        hours = new NumberDisplay(12);
         minutes = new NumberDisplay(60);
         updateDisplay();
     }
@@ -34,11 +35,12 @@ public class ClockDisplay12Hr
      * creates a new clock set at the time specified by the
      * parameters.
      */
-    public ClockDisplay12Hr(int hour, int minute)
+    public ClockDisplay12Hr(int hour, int minute, boolean morning)
     {
-        hours = new NumberDisplay(24);
+        hours = new NumberDisplay(12);
         minutes = new NumberDisplay(60);
-        setTime(hour, minute);
+
+        setTime(hour, minute, morning);
     }
 
     /**
@@ -58,10 +60,11 @@ public class ClockDisplay12Hr
      * Set the time of the display to the specified hour and
      * minute.
      */
-    public void setTime(int hour, int minute)
+    public void setTime(int hour, int minute, boolean morning)
     {
         hours.setValue(hour);
         minutes.setValue(minute);
+        isMorning = morning;
         updateDisplay();
     }
 
@@ -78,7 +81,16 @@ public class ClockDisplay12Hr
      */
     private void updateDisplay()
     {
-        displayString = hours.getDisplayValue() + ":" +
-                        minutes.getDisplayValue();
+        if ( isMorning == true  && hours.getValue() >0)
+        {
+            displayString = hours.getDisplayValue() + ":" +
+                        minutes.getDisplayValue() + "am";
+           }
+        
+        else  if ( isMorning == false && hours.getValue() > 0 )
+        {
+            displayString = hours.getDisplayValue() + ":" +
+                        minutes.getDisplayValue() + "pm";
+        }
     }
 }
